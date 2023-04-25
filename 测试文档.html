@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     let url='https://search.bilibili.com/all?keyword=%E7%8F%A0%E5%B3%B0%E5%9F%B9%E8%AE%AD&from_source=webtop_search&spm_id_from=333.1007&search_source=5#box'
+    /*     // 获取问号后面的值和“#”后面的值
+        let askIndex=url.indexOf("?");
+        let wellIndex=url.indexOf("#");
+        let askText=url.substring(askIndex+1,wellIndex);
+        let wellText=url.substring(wellIndex+1);
+        console.log(askText,wellText)
+        let result={}
+        let askAry=askText.split("&");
+        console.log(askAry)
+        askAry.forEach((item)=>{
+            let n=item.split("=")
+            let key=n[0]
+            let val=n[1]
+            result[key]=val
+
+        })
+        result.HASH=wellText
+        console.log(result) */
+
+       /*  //封装
+        queryURLParams 获取url地址中？后面的传参信息和哈希值
+            @params 
+                url [string] 要解析的url字符串
+            @return
+                [object] 包含参数和哈希值的对象
+        */
+        function queryURLParams (url) {
+            //获取问号和#索引值
+            let askIN = url.indexOf('?'),
+                wellIn = url.indexOf('#'),
+                askText='',
+                wellText=''
+                //#不存在 null是一个占位符，表示啥都不干
+            wellIn === -1 ? wellIn = url.length : null;
+            /* if (askIN >= 0) {
+                askText = url.substring(askIN+1,wellIn)
+            } */
+            askIN >= 0 ?  askText = url.substring(askIN+1,wellIn) : null;
+            
+            wellText = url.substring(wellIn+1);
+
+            //获取askText 里面的信息
+            let result = {};
+            wellText !== "" ? result['HASH'] = wellText : null;
+            if(askText !==""){
+                askText.split("&").forEach((item)=>{
+                    let n=item.split("=")
+                    result[n[0]]=n[1]
+                })
+            }
+        return result
+        }
+        let a=queryURLParams(url)
+        console.log(a)
+
+        // 封装验证码
+        function queryCode(){
+            //准备获取范围字符串
+            let area="0123456789qwertyuiopasdfghjklzxcvbnmZXCVBNMASDFGHJKLQWERTYUIOP"
+            let result=""
+            for(let i=0;i<4;i++){
+                let a=Math.round(Math.random()*61);
+                //根据随机索引获得字符
+                result+=area.charAt(a)
+
+            }
+            return result
+        }
+
+        console.log(queryCode())
+    </script>
+</body>
+</html>
